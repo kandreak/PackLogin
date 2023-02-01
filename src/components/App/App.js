@@ -1,30 +1,35 @@
 import logo from './logo.svg';
 import './App.css';
 
+import { BrowserRouter as Router} from 'react-router-dom';
+import {Routes, Route} from 'react-router-dom';
+
+import User from '../User/User';
+import Signup from '../Signup/Signup';
+import Login from '../Login/Login';
+
 import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth"
 import { firebaseConfig } from "../../firebase-config";
 
-function App() {
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
+// Initialize Firebase
+export const app = initializeApp(firebaseConfig);
+export const auth = getAuth(app);
 
+function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div>
+        <section>
+          <Routes>
+            <Route path="/user" element={<User />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/" element={<User />} />
+            <Route path="/login" element={<Login />} />
+          </Routes>
+        </section>
+      </div>
+    </Router>
   );
 }
 
