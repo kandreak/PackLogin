@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, getAuth } from 'firebase/auth';
 import { auth } from '../App/App';
 import { NavLink, useNavigate } from 'react-router-dom'
 
@@ -23,6 +23,28 @@ export default function Login() {
                 const errorMessage = error.message;
                 console.log(errorCode, errorMessage)
             });
+    }
+
+    const onGoogleLogin = (e) => {
+        e.preventDefault();
+        signInWithPopup(getAuth(), new GoogleAuthProvider()).then((result) => {
+            // This gives you a Google Access Token. You can use it to access the Google API.
+            const credential = GoogleAuthProvider.credentialFromResult(result);
+            const token = credential.accessToken;
+            // The signed-in user info.
+            const user = result.user;
+            // ...
+            navigate("/user")
+        }).catch((error) => {
+            // Handle Errors here.
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            // The email of the user's account used.
+            const email = error.customData.email;
+            // The AuthCredential type that was used.
+            const credential = GoogleAuthProvider.credentialFromError(error);
+            // ...
+        });
     }
 
     return (
@@ -66,6 +88,14 @@ export default function Login() {
                                     onClick={onLogin}
                                 >
                                     Login
+                                </button>
+                            </div>
+
+                            <div>
+                                <button
+                                    onClick={onGoogleLogin}
+                                >
+                                    Login with Google
                                 </button>
                             </div>
                         </form>
