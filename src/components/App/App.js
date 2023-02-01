@@ -1,7 +1,13 @@
 import logo from './logo.svg';
 import './App.css';
 
+import { initializeApp } from "firebase/app";
+import { firebaseConfig } from "../../firebase-config";
+
 function App() {
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+
   return (
     <div className="App">
       <header className="App-header">
